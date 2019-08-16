@@ -1,0 +1,74 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}
+	{% if nota.titulo %}
+		{{nota.titulo}}
+	{% else %}
+		Agregar emisora
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+
+	<div class="titulo">
+		<h1>Emisoras</h1>
+	</div>
+
+	<div class="espacio"></div>
+	
+	<div class="card card-primary contenedor">
+		{% if nuevo %}
+			<div class="card-header bg-primary">Agregar emisora</div>
+		{% else %}
+			<div class="card-header bg-primary">Editando la emisora {{ emisora.nombre }}</div>
+		{% endif %}
+		<div class="card-body">
+			<div class="card-block">
+			  {% if nuevo %}
+				<form action="{% url 'radioonline_emisora_view' %}" method="POST" class="needs-validation" novalidate="novalidate" id="notaForm">
+		      {% else %}
+		    	<form action="{% url 'radioonline_emisora_edit' emisora.id %}" method="POST" class="needs-validation" novalidate="novalidate" id="emisoraForm">
+		      {% endif %}
+			  {% csrf_token %}
+			  <fieldset>
+				<legend>Datos</legend>
+				<div class="form-row">
+				    <div class="col-lg-12 mb-3">
+				      <label>{{form.nombre.label}}</label>
+					  {{form.nombre}}
+		              <div class="invalid-feedback">
+		                El nombre es requerido
+		               </div>			  
+				    </div>
+				    <div class="col-lg-12 mb-3">
+				      <label>{{form.url.label}}</label>
+					  {{form.url}}
+		              <div class="invalid-feedback">
+		                La URL es requerida
+		               </div>			  
+				    </div>
+				    <div class="col-lg-12 mb-3">
+				      <label>{{form.genero.label}}</label>
+					  {{form.genero}}
+		              <div class="invalid-feedback">
+		                Seleccione un genero
+		               </div>				  
+				    </div>
+				</div>
+		        <div class="text-center">
+		            <p class="lead">
+						{% if nuevo %}
+							<button type="submit" class="btn btn-primary boton-largo" name="agregar_emisora"><i class="fa fa-plus espacio-icono" aria-hidden="true"></i>Agregar</button>
+						{% else %}
+							<button type="submit" class="btn btn-primary boton-largo" name="editar_emisora"><i class="fa fa-pencil-square-o espacio-icono" aria-hidden="true"></i>Editar</button>
+						{% endif %}
+		                <a href="{% url 'radioonline_emisora_list' %}" class="btn btn-primary boton-largo" role="button"><i class="fa fa-arrow-left espacio-icono" aria-hidden="true"></i>Volver</a>
+		            </p>
+		        </div>
+			  </fieldset>
+			</form>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

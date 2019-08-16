@@ -1,0 +1,152 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title> 
+    <link rel="icon" href="{% static 'images/icono.png' %}">
+
+    <!-- Bootstrap -->
+
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+
+    <script src="{% static 'js/jquery-3.2.1.js' %}" charset="UTF-8"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}" charset="UTF-8"></script>
+    <script src="{% static 'js/jquery.dataTables.min.js' %}" charset="UTF-8"></script>
+    <script src="{% static 'js/dataTables.bootstrap4.min.js' %}" charset="UTF-8"></script>
+    <script src="{% static 'audiojs/audio.min.js' %}" charset="UTF-8"></script>
+    <script src="{% static 'js/app.js' %}" charset="UTF-8"></script>
+    <script src="{% static 'js/howler.min.js' %}"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">Radio Online 0.1</a>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="{% url 'inicio' %}" name="inicio"><i class="fa fa-home espacio-icono" aria-hidden="true"></i></span>Inicio<span class="sr-only">(current)</span></a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="gestionar"><i class="fa fa-tasks espacio-icono" aria-hidden="true"></i>Gestionar <span class="caret"></span></a>
+                        <div class="dropdown-menu" aria-labelledby="gestionar">
+                            <a class="dropdown-item" href="{% url 'radioonline_genero_list' %}" name="generos">Generos</a>
+                            <a class="dropdown-item" href="{% url 'radioonline_emisora_list' %}" name="emisoras">Emisoras</a>
+                        </div>
+                    </li>  
+                </ul>
+                <span class="navbar-text">
+                  <div id="reproductor" align="center">
+                    &#127926; Reproduciendo <span id="nombre_radio"></span> <button type="button" id="detener_radio" class="btn btn-info btn-sm" onclick="pararRadio();return false;">Detener</button>
+                  </div>
+                </span>
+            </div>
+        </nav>     
+        <section>
+          <div class="container-fluid" style="margin-top: 100px">
+            {% if messages %}
+               {% for message in messages %}
+                  {% if message.level ==  DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="alert alert-info alert-dismissible">
+                  {% endif %}
+                  {% if message.level ==  DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    <div class="alert alert-danger alert-dismissible">
+                  {% endif %}   
+                  <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <span>{{message}}</span>
+                  </div>         
+               {% endfor %}
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+          </div>
+        </section>
+        <div class="main"></div>
+        <footer class="footer">
+          <div class="container">
+            <br>
+            <p class="text-center">Copyright Ismael Heredia 2019</p>
+          </div>
+        </footer>
+    <script type="text/javascript">
+
+      var sound = null;
+
+      function reproducirRadio(nombre_radio,link) {
+
+          if(sound != null) {
+            sound.stop();
+            sound.unload();
+            sound = null;
+          }
+
+          sound = new Howl({
+              src: [link],
+              html5: true,
+              format: ['mp3', 'aac'],
+              volume: 1.0,
+              onloaderror: function(error) {
+                  console.log('Ayyy: ', error);
+              }
+          });
+
+          sound.once('load', function(){
+            sound.play();
+          });
+
+          $('#nombre_radio').text(nombre_radio);
+
+          if($("#reproductor").is(":hidden")){
+            $('#reproductor').toggle();
+          }
+          
+      }
+
+      function pararRadio() {
+
+          if(sound != null) {
+            sound.stop();
+            sound.unload();
+            sound = null;
+          }
+
+          if($("#reproductor").is(":visible")){
+            $('#reproductor').toggle();
+          }
+      }
+
+    </script>
+    </body>
+    <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+</html>

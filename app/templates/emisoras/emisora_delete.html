@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Borrar emisora{% endblock %}
+
+{% block content %}
+
+    <div class="titulo">
+        <h1>Emisoras</h1>
+    </div>
+
+    <div class="espacio"></div>
+	
+	<div class="jumbotron">
+	  <form action="{% url 'radioonline_emisora_delete' emisora.id %}" method="POST" name="form_emisoras">
+	  	{% csrf_token %}
+        <fieldset>
+            <div class="text-center">
+                <h1>Eliminacíon</h1>
+                <p class="lead">¿Estás seguro que deseas eliminar la emisora {{ emisora.nombre }} ?</p>
+                <p class="lead">
+                    <button type="submit" name="borrar_emisora" class="btn btn-danger boton-largo"><i class="fa fa-times espacio-icono" aria-hidden="true"></i>Borrar</button>
+                    <a href="{% url 'radioonline_emisora_list' %}" class="btn btn-primary boton-largo" role="button"><i class="fa fa-arrow-left espacio-icono" aria-hidden="true"></i>Volver</a>
+                </div>
+            </div>
+        </fieldset>
+	  </form>
+	</div>
+
+{% endblock %}
