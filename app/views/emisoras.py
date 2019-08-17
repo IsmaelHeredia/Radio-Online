@@ -19,10 +19,17 @@ def radioonline_emisora_view(request):
     if request.method == 'POST':
         form = EmisoraForm(request.POST)
         if form.is_valid():
-            form.save()
-            message_text = "La emisora fue registrada"
-            messages.add_message(request, messages.SUCCESS,message_text)
-            return redirect("radioonline_emisora_list")
+            data = form.cleaned_data
+            nombre = data["nombre"]
+            if service.comprobar_existencia_emisora_crear(nombre):
+                message_text = "La emisora "+nombre+" ya existe"
+                messages.add_message(request, messages.WARNING,message_text)
+                return redirect("radioonline_emisora_view")
+            else:
+                form.save()
+                message_text = "La emisora fue registrada"
+                messages.add_message(request, messages.SUCCESS,message_text)
+                return redirect("radioonline_emisora_list")
     else:
         return render(request, 'emisoras/emisora_form.html', {'form':EmisoraForm(),'nuevo':True})
 
@@ -33,10 +40,17 @@ def radioonline_emisora_edit(request,id_emisora):
     else:
         form = EmisoraForm(request.POST,instance=emisora)
         if form.is_valid():
-            form.save()
-            message_text = "La emisora fue editada"
-            messages.add_message(request, messages.SUCCESS,message_text)
-            return redirect("radioonline_emisora_list")                  
+            data = form.cleaned_data
+            nombre = data["nombre"]
+            if service.comprobar_existencia_emisora_editar(id_emisora,nombre):
+                message_text = "La emisora "+nombre+" ya existe"
+                messages.add_message(request, messages.WARNING,message_text)
+                return redirect("radioonline_emisora_view")
+            else:
+                form.save()
+                message_text = "La emisora fue editada"
+                messages.add_message(request, messages.SUCCESS,message_text)
+                return redirect("radioonline_emisora_list")                  
         else:
             message_text = "Faltan datos para registrar la emisora"
             messages.add_message(request, messages.WARNING,message_text)  

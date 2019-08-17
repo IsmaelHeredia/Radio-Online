@@ -20,5 +20,35 @@ class Service(object):
         except Exception as e:
             pass
 
+    def comprobar_existencia_genero_crear(self,nombre):
+        response = False
+        try:
+            o = Genero.objects.get(nombre=nombre)
+            response = True
+        except Genero.DoesNotExist:
+            response = False
+        return response
+
+    def comprobar_existencia_genero_editar(self,id,nombre):
+        if Genero.objects.filter(nombre=nombre).exclude(id=id).exists():
+            return True
+        else:
+            return False
+
+    def comprobar_existencia_emisora_crear(self,nombre):
+        response = False
+        try:
+            o = Emisora.objects.get(nombre=nombre)
+            response = True
+        except Emisora.DoesNotExist:
+            response = False
+        return response
+
+    def comprobar_existencia_emisora_editar(self,id,nombre):
+        if Emisora.objects.filter(nombre=nombre).exclude(id=id).exists():
+            return True
+        else:
+            return False
+
     def destroy(self):
         pass

@@ -19,10 +19,17 @@ def radioonline_genero_view(request):
     if request.method == 'POST':
         form = GeneroForm(request.POST)
         if form.is_valid():
-            form.save()
-            message_text = "El genero fue registrado"
-            messages.add_message(request, messages.SUCCESS,message_text)
-            return redirect("radioonline_genero_list")
+            data = form.cleaned_data
+            nombre = data["nombre"]
+            if service.comprobar_existencia_genero_crear(nombre):
+                message_text = "El género "+nombre+" ya existe"
+                messages.add_message(request, messages.WARNING,message_text)
+                return redirect("radioonline_genero_view")
+            else:
+                form.save()
+                message_text = "El género fue registrado"
+                messages.add_message(request, messages.SUCCESS,message_text)
+                return redirect("radioonline_genero_list")
     else:
         return render(request, 'generos/genero_form.html', {'form':GeneroForm(),'nuevo':True})
 
@@ -33,12 +40,19 @@ def radioonline_genero_edit(request,id_genero):
     else:
         form = GeneroForm(request.POST,instance=genero)
         if form.is_valid():
-            form.save()
-            message_text = "El genero fue actualizado"
-            messages.add_message(request, messages.SUCCESS,message_text)
-            return redirect("radioonline_genero_list")                  
+            data = form.cleaned_data
+            nombre = data["nombre"]
+            if service.comprobar_existencia_genero_editar(id_genero,nombre):
+                message_text = "El género "+nombre+" ya existe"
+                messages.add_message(request, messages.WARNING,message_text)
+                return redirect("radioonline_genero_view")
+            else:
+                form.save()
+                message_text = "El género fue actualizado"
+                messages.add_message(request, messages.SUCCESS,message_text)
+                return redirect("radioonline_genero_list")                  
         else:
-            message_text = "Faltan datos para actualizar el genero"
+            message_text = "Faltan datos para actualizar el género"
             messages.add_message(request, messages.WARNING,message_text)  
             return redirect("radioonline_genero_edit",id_genero)    
     return render(request,'generos/genero_form.html',{'form':form,'genero':genero})
@@ -48,7 +62,7 @@ def radioonline_genero_delete(request,id_genero):
     if request.method == 'POST':
         if 'borrar_genero' in request.POST:
             genero.delete()
-            message_text = "El genero fue borrado"
+            message_text = "El género fue borrado"
             messages.add_message(request, messages.SUCCESS,message_text)
             return redirect('radioonline_genero_list')
         elif 'volver_lista' in request.POST:

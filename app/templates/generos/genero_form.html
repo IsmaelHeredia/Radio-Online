@@ -4,7 +4,7 @@
 	{% if genero.nombre %}
 		{{genero.nombre}}
 	{% else %}
-		Agregar genero
+		Agregar género
 	{% endif %}
 {% endblock %}
 
@@ -18,9 +18,9 @@
 	
 	<div class="card card-primary contenedor">
 		{% if nuevo %}
-			<div class="card-header bg-primary">Agregar genero</div>
+			<div class="card-header bg-primary">Agregar género</div>
 		{% else %}
-			<div class="card-header bg-primary">Editando la genero {{genero.nombre}}</div>
+			<div class="card-header bg-primary">Editando la género {{genero.nombre}}</div>
 		{% endif %}
 		<div class="card-body">
 			<div class="card-block">
