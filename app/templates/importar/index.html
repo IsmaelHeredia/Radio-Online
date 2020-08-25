@@ -1,0 +1,26 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% block title %}Importar{% endblock %}
+
+{% block content %}
+
+  <div class="centrado">
+    <h1>Importar</h1>
+  </div>
+
+  <div class="espacio"></div>
+
+  <div class="card card-primary contenedor">
+    <div class="card-header bg-primary">Importar datos</div>
+      <div class="card-body">
+          <div class="card-block">
+            <form enctype="multipart/form-data" method="post" action="{% url 'radioonline_emisora_importar' %}">
+              {% csrf_token %}
+              <input type="file" name="archivoJSON" accept=".json" />
+              <button type="submit" class="btn btn-primary boton-largo"><i class="fa fa-database espacio-icono" aria-hidden="true"></i>Subir</button>
+            </form>
+          </div>
+    </div>
+  </div>
+
+{% endblock %}

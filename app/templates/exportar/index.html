@@ -1,0 +1,23 @@
+{% extends 'layouts/base_admin.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Importar{% endblock %}
+
+{% block content %}
+
+  <div class="centrado">
+    <h1>Exportar datos</h1>
+  </div>
+
+  <div class="espacio"></div>
+
+  <div class="card card-primary contenedor">
+      <div class="card-body">
+          <div class="card-block">
+            <a href="{% static 'downloads/stations.json' %}" download class="btn btn-primary boton-extra-largo centrar" role="button"><i class="fa fa-database espacio-icono" aria-hidden="true"></i>Descargar JSON</a>
+          </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title> 
+        <link rel="icon" href="{% static 'images/icono.png' %}">
+
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" />
+        <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+
+        <script src="{% static 'js/jquery-3.5.1.min.js' %}" charset="UTF-8"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}" charset="UTF-8"></script>
+        <script src="{% static 'js/jquery.dataTables.min.js' %}" charset="UTF-8"></script>
+        <script src="{% static 'js/dataTables.bootstrap4.min.js' %}" charset="UTF-8"></script>
+        <script src="{% static 'js/app_admin.js' %}" charset="UTF-8"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'inicio' %}">Radio Online 1.0</a>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href="{% url 'inicio' %}" name="inicio"><i class="fa fa-home espacio-icono" aria-hidden="true"></i></span>Inicio<span class="sr-only">(current)</span></a></li>
+                    <li class="nav-item active"><a class="nav-link" href="{% url 'radioonline_emisora_list' %}" name="emisoras"><i class="fa fa-music espacio-icono" aria-hidden="true"></i></span>Emisoras</a></li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="datos"><i class="fa fa-database espacio-icono" aria-hidden="true"></i>Datos <span class="caret"></span></a>
+                      <div class="dropdown-menu" aria-labelledby="datos">
+                          <a class="dropdown-item" href="{% url 'radioonline_emisora_importar' %}" name="importar">Importar</a>
+                          <a class="dropdown-item" href="{% url 'radioonline_emisora_exportar' %}" name="exportar">Exportar</a>     
+                      </div>
+                  </li>
+                </ul>
+            </div>
+        </nav>     
+        <section>
+          <div class="container-fluid" style="margin-top: 100px">
+            {% if messages %}
+               {% for message in messages %}
+                  {% if message.level ==  DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="alert alert-info alert-dismissible">
+                  {% endif %}
+                  {% if message.level ==  DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    <div class="alert alert-danger alert-dismissible">
+                  {% endif %}   
+                  <button class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <span>{{message}}</span>
+                  </div>         
+               {% endfor %}
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+          </div>
+        </section>
+        <div class="main"></div>
+        <footer class="footer">
+          <div class="container">
+            <br>
+            <p class="text-center">Copyright Ismael Heredia 2020</p>
+          </div>
+        </footer>
+    </body>
+    <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>
+</html>

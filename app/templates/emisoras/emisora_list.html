@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/base_admin.html' %}
 
 {% load staticfiles %}
 
@@ -6,7 +6,7 @@
 
 {% block content %}
 
-	<div class="titulo">
+	<div class="centrado">
 		<h1>Emisoras</h1>
 	</div>
 
@@ -18,8 +18,7 @@
             <tr>
                 <th>Nombre</th>
                 <th>URL</th>
-                <th>Genero</th>
-                <th>Fecha de registro</th>
+                <th>Géneros</th>
                 <th>Opción</th>
             </tr>
         </thead>
@@ -28,8 +27,7 @@
 			  <tr>
 				<td>{{ emisora.nombre }}</td>
 				<td>{{ emisora.url }}</td>
-				<td>{{ emisora.genero.nombre }}</td>
-				<td>{{ emisora.fecha_registro|date:'d/m/Y H:i' }}</td>
+				<td>{{ emisora.generos }}</td>
 				<td>
 					<a href="{% url 'radioonline_emisora_edit' emisora.id %}"><img data-toggle="tooltip" src="{% static 'images/edit.png' %}" title="Editar"></a>
 					<a href="{% url 'radioonline_emisora_delete' emisora.id %}"><img data-toggle="tooltip" src="{% static 'images/delete.png' %}" title="Borrar"></a>
@@ -39,13 +37,13 @@
         </tbody>
     </table>
 	{% else %}
-		<h3 class="text-center">No se encontraron emisoras</h3>
+		<h3 class="centrado">No se encontraron emisoras</h3>
+		<div class="espacio"></div>
+		<a href="{% url 'radioonline_instalar' %}" class="btn btn-primary boton-extra-largo centrar" role="button"><i class="fa fa-cog espacio-icono" aria-hidden="true"></i>Instalar emisoras por defecto</a>
 	{% endif %}		
 
 	<div class="espacio"></div>
 
-	<div align="center">
-	    <a href="{% url 'radioonline_emisora_view' %}" class="btn btn-primary boton-extra-largo" role="button"><i class="fa fa-plus espacio-icono" aria-hidden="true"></i>Agregar nueva emisora</a>
-	</div>
+	<a href="{% url 'radioonline_emisora_view' %}" class="btn btn-primary boton-extra-largo centrar" role="button"><i class="fa fa-plus espacio-icono" aria-hidden="true"></i>Agregar nueva emisora</a>
 
 {% endblock %}

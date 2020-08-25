@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/base_admin.html' %}
 
 {% block title %}
 	{% if nota.titulo %}
@@ -10,7 +10,7 @@
 
 {% block content %}
 
-	<div class="titulo">
+	<div class="centrado">
 		<h1>Emisoras</h1>
 	</div>
 
@@ -48,10 +48,10 @@
 		               </div>			  
 				    </div>
 				    <div class="col-lg-12 mb-3">
-				      <label>{{form.genero.label}}</label>
-					  {{form.genero}}
+				      <label>{{form.generos.label}}</label>
+					  {{form.generos}}
 		              <div class="invalid-feedback">
-		                Seleccione un genero
+		                Seleccione un género
 		               </div>				  
 				    </div>
 				</div>

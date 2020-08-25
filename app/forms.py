@@ -1,26 +1,8 @@
-# Written By Ismael Heredia in the year 2017
+# Written By Ismael Heredia in the year 2020
 
 from django import forms
 
-from app.models import Genero,Emisora
-
-class GeneroForm(forms.ModelForm):
-    
-    class Meta:
-        
-        model = Genero
-
-        fields = [
-            'nombre',
-        ]
-
-        labels = {
-            'nombre':'Nombre',
-        }
-
-        widgets = {
-            'nombre':forms.TextInput(attrs={'class':'form-control','placeholder':'Ingrese nombre de categoria','autocomplete':'off','autocorrect':'off','spellcheck':'false'}),
-        }
+from app.models import Emisora
 
 class EmisoraForm(forms.ModelForm):
 
@@ -31,17 +13,17 @@ class EmisoraForm(forms.ModelForm):
         fields = [
             'nombre',
             'url',
-            'genero',
+            'generos',
         ]
 
         labels = {
             'nombre':'Nombre',
             'url':'URL',
-            'genero':'Genero',
+            'generos':'Géneros',
         }
 
         widgets = {
             'nombre':forms.TextInput(attrs={'class':'form-control','placeholder':'Ingrese nombre','autocomplete':'off','autocorrect':'off','spellcheck':'false'}),
             'url':forms.TextInput(attrs={'class':'form-control','placeholder':'Ingrese URL','autocomplete':'off','autocorrect':'off','spellcheck':'false'}),
-            'genero':forms.Select(attrs={'class':'form-control'}),        
+            'generos':forms.TextInput(attrs={'class':'form-control','placeholder':'Ingrese géneros','autocomplete':'off','autocorrect':'off','spellcheck':'false'}),        
         }
